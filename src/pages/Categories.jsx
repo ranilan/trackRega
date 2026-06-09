@@ -319,7 +319,7 @@ export default function Categories() {
                   </div>
                 </CardHeader>
                 <CardContent className="px-4 pb-4">
-                  <div className="flex flex-wrap justify-end gap-3">
+                  <div className="flex flex-wrap justify-start gap-3">
                     {getSubCategories(parentCategory.name, "expense").map((subCategory) => (
                       <CategoryCard
                         key={subCategory.id}
@@ -368,7 +368,7 @@ export default function Categories() {
                   </div>
                 </CardHeader>
                 <CardContent className="px-4 pb-4">
-                  <div className="flex flex-wrap justify-end gap-3">
+                  <div className="flex flex-wrap justify-start gap-3">
                     {getSubCategories(parentCategory.name, "income").map((subCategory) => (
                       <CategoryCard
                         key={subCategory.id}
