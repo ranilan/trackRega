@@ -1,0 +1,30 @@
+[
+  {
+    "name": "חשמל",
+    "budget_group_name": "תקציב ראשון",
+    "start_date": "2026-01-06",
+    "category_id": "68a7593e63a431ba3e97dbac",
+    "monthly_amount": 500,
+    "is_active": true,
+    "id": "695d4af2f9b012c44b2ca625",
+    "created_date": "2026-01-06T17:48:34.825000",
+    "updated_date": "2026-01-06T17:48:34.825000",
+    "created_by_id": "68a4512267e78a1c903e44bf",
+    "created_by": "ranilan00@gmail.com",
+    "is_sample": false
+  },
+  {
+    "name": "חשמל",
+    "budget_group_name": "תקציב ראשון",
+    "start_date": "2026-01-06",
+    "category_id": "68a7593e63a431ba3e97dbac",
+    "monthly_amount": 500,
+    "is_active": true,
+    "id": "695d4af001b84119077ae4ee",
+    "created_date": "2026-01-06T17:48:32.123000",
+    "updated_date": "2026-01-06T17:48:32.123000",
+    "created_by_id": "68a4512267e78a1c903e44bf",
+    "created_by": "ranilan00@gmail.com",
+    "is_sample": false
+  }
+]

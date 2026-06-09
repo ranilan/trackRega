@@ -1,0 +1,18 @@
+{
+  "exportedAt": "2026-06-04T11:19:03.723Z",
+  "counts": {
+    "FinancialSource": 42,
+    "Category": 1437,
+    "Transaction": 353,
+    "Budget": 2
+  },
+  "logsStatus": 200,
+  "files": [
+    "entities.json",
+    "FinancialSource.json/csv",
+    "Category.json/csv",
+    "Transaction.json/csv",
+    "Budget.json/csv",
+    "audit-logs.json"
+  ]
+}

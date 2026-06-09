@@ -1,0 +1,39 @@
+{
+  "name": "Budget",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05ea\u05e7\u05e6\u05d9\u05d1"
+    },
+    "budget_group_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05ea\u05e7\u05e6\u05d9\u05d1 (\u05dc\u05d3\u05d5\u05d2\u05de\u05d4: \u05ea\u05e7\u05e6\u05d9\u05d1 \u05d9\u05e0\u05d5\u05d0\u05e8 2025)"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u05ea\u05d0\u05e8\u05d9\u05da \u05d4\u05ea\u05d7\u05dc\u05d4"
+    },
+    "category_id": {
+      "type": "string",
+      "description": "ID \u05e9\u05dc \u05d4\u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d4"
+    },
+    "monthly_amount": {
+      "type": "number",
+      "description": "\u05e1\u05db\u05d5\u05dd \u05d7\u05d5\u05d3\u05e9\u05d9 \u05de\u05ea\u05d5\u05db\u05e0\u05df"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "\u05d4\u05d0\u05dd \u05d4\u05ea\u05e7\u05e6\u05d9\u05d1 \u05e4\u05e2\u05d9\u05dc"
+    }
+  },
+  "required": [
+    "name",
+    "budget_group_name",
+    "start_date",
+    "category_id",
+    "monthly_amount"
+  ]
+}

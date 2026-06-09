@@ -1,0 +1,487 @@
+{
+  "exportedAt": "2026-06-04T11:19:03.722Z",
+  "appId": "68a4512267e78a1c903e44be",
+  "status": 200,
+  "body": {
+    "events": [
+      {
+        "timestamp": "2026-06-04T11:19:00.993000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Transaction"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:53.993000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "node",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "(none)",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Budget"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:53.701000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "node",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "(none)",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Transaction"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:53.156000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "node",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "(none)",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Category"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:52.738000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "node",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "(none)",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "FinancialSource"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:52.109000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "(none)",
+          "sort": "",
+          "limit": "25",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Transaction"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:51.570000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.security.check_run",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "rls_recommendations_count": "4",
+          "hardcoded_secrets_count": "0",
+          "backend_functions_issues_count": "0"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:18.994000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Category"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:18.965000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Transaction"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:18.953000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Budget"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:16.500000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.security.check_run",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "rls_recommendations_count": "4",
+          "hardcoded_secrets_count": "0",
+          "backend_functions_issues_count": "0"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:09.034000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Transaction"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:08.999000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Category"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:08.989000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Budget"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:03.326000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Category"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:03.213000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Budget"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:18:03.212000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Transaction"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:17:59.082000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "(none)",
+          "sort": "",
+          "limit": "25",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Transaction"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:17:30.380000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "(none)",
+          "sort": "",
+          "limit": "25",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Budget"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:17:27.476000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Category"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:17:27.434000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Transaction"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:17:27.423000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Budget"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:17:24.074000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "(none)",
+          "sort": "",
+          "limit": "25",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Transaction"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:17:17.763000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Category"
+        }
+      },
+      {
+        "timestamp": "2026-06-04T11:17:17.756000",
+        "user_email": "ranilan00@gmail.com",
+        "workspace_id": "6890824ffeda6825c484f5fa",
+        "app_id": "68a4512267e78a1c903e44be",
+        "ip": "213.8.41.98",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+        "event_type": "app.entity.query",
+        "status": "success",
+        "error_code": "",
+        "metadata": {
+          "filter_fields": "created_by",
+          "sort": "",
+          "limit": "5000",
+          "skip": "",
+          "fields": "",
+          "entity_name": "Transaction"
+        }
+      }
+    ],
+    "pagination": {
+      "total": 300,
+      "limit": 25,
+      "has_more": true,
+      "next_cursor": {
+        "timestamp": "2026-06-04T11:17:17.756000",
+        "user_email": "ranilan00@gmail.com"
+      }
+    }
+  }
+}
