@@ -193,6 +193,30 @@ export const createEntityClient = (entityName) => {
       return data;
     },
 
+    async bulkCreate(valuesList) {
+      if (!Array.isArray(valuesList) || valuesList.length === 0) {
+        return [];
+      }
+
+      const currentUser = await getCurrentUser();
+      const now = new Date().toISOString();
+      const payloads = valuesList.map((values) => ({
+        id: values.id || randomId(),
+        created_by: values.created_by || currentUser.email,
+        created_date: values.created_date || now,
+        updated_date: values.updated_date || now,
+        ...values,
+      }));
+
+      const { data, error } = await supabase.from(table).insert(payloads).select('*');
+      if (error) {
+        const rows = [...payloads, ...getLocalRows(entityName)];
+        setLocalRows(entityName, rows);
+        return payloads;
+      }
+      return data ?? [];
+    },
+
     async update(id, values) {
       const { data, error } = await supabase
         .from(table)
