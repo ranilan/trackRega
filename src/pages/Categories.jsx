@@ -274,7 +274,7 @@ export default function Categories() {
           </div>
         )}
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full text-right" dir="rtl">
           <TabsList className="grid w-full grid-cols-2 bg-slate-800/50">
             <TabsTrigger value="expense" className="flex items-center gap-2 data-[state=active]:bg-red-500/20 data-[state=active]:text-red-400">
               <TrendingDown className="w-4 h-4" />
@@ -286,7 +286,7 @@ export default function Categories() {
             </TabsTrigger>
           </TabsList>
           
-          <TabsContent value="expense" className="pt-6 space-y-4">
+          <TabsContent value="expense" className="pt-6 space-y-4 text-right" dir="rtl">
             {getParentCategories("expense").map((parentCategory) => (
               <Card key={parentCategory.id} className="bg-white/5 backdrop-blur-sm border-white/10">
                 <CardHeader className="p-4">
@@ -319,7 +319,7 @@ export default function Categories() {
                   </div>
                 </CardHeader>
                 <CardContent className="px-4 pb-4">
-                  <div className="flex flex-wrap justify-start gap-3">
+                  <div className="flex flex-wrap justify-end gap-3">
                     {getSubCategories(parentCategory.name, "expense").map((subCategory) => (
                       <CategoryCard
                         key={subCategory.id}
@@ -335,7 +335,7 @@ export default function Categories() {
             ))}
           </TabsContent>
 
-          <TabsContent value="income" className="pt-6 space-y-4">
+          <TabsContent value="income" className="pt-6 space-y-4 text-right" dir="rtl">
             {getParentCategories("income").map((parentCategory) => (
                 <Card key={parentCategory.id} className="bg-white/5 backdrop-blur-sm border-white/10">
                 <CardHeader className="p-4">
@@ -368,7 +368,7 @@ export default function Categories() {
                   </div>
                 </CardHeader>
                 <CardContent className="px-4 pb-4">
-                  <div className="flex flex-wrap justify-start gap-3">
+                  <div className="flex flex-wrap justify-end gap-3">
                     {getSubCategories(parentCategory.name, "income").map((subCategory) => (
                       <CategoryCard
                         key={subCategory.id}
