@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { base44 } from "@/api/base44Client";
+import { Budget, Category, Transaction } from "@/entities/all";
 import { format, startOfMonth, endOfMonth, startOfYear, endOfYear, eachMonthOfInterval, differenceInDays } from "date-fns";
 import { he } from "date-fns/locale";
 import { Eye, EyeOff } from "lucide-react";
@@ -38,9 +38,9 @@ export default function Dashboard() {
       }
 
       const [transactionsData, budgetsData, categoriesData] = await Promise.all([
-        base44.entities.Transaction.filter({ created_by: userEmail }),
-        base44.entities.Budget.filter({ created_by: userEmail }),
-        base44.entities.Category.filter({ created_by: userEmail }),
+        Transaction.filter({ created_by: userEmail }),
+        Budget.filter({ created_by: userEmail }),
+        Category.filter({ created_by: userEmail }),
       ]);
 
       setTransactions(filterDataForDemo(transactionsData, 'transactions'));

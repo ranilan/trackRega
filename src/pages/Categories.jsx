@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Category, User } from "@/entities/all";
+import { Category } from "@/entities/all";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";

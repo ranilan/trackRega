@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Budget, Transaction, Category, User } from "@/entities/all";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,15 +11,13 @@ import {
   Plus,
   ArrowRight,
   Target,
-  Calendar,
   TrendingDown,
   TrendingUp,
   Trash2,
-  Wallet,
   Pencil,
   CheckCircle } from
 "lucide-react";
-import { format, startOfMonth, endOfMonth, differenceInCalendarMonths } from "date-fns";
+import { format, differenceInCalendarMonths } from "date-fns";
 import { he } from "date-fns/locale";
 import EditBudgetItemModal from "../components/budgets/EditBudgetItemModal";
 

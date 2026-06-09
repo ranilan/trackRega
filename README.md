@@ -1,39 +1,46 @@
-**Welcome to your Base44 project** 
+# TrackRega
 
-**About**
+TrackRega is a Hebrew budget tracking app focused on fast weekly manual tracking.
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+The product approach is intentionally different from classic financial planning flows:
+instead of starting with a long backward analysis and only then building a budget,
+TrackRega starts with a short weekly tracking habit. The budget becomes clearer from
+real behavior over time.
 
-This project contains everything you need to run your app locally.
+## Local Development
 
-**Edit the code in your local development environment**
+1. Install dependencies:
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
-
-**Prerequisites:** 
-
-1. Clone the repository using the project's Git URL 
-2. Navigate to the project directory
-3. Install dependencies: `npm install`
-4. Create an `.env.local` file and set the right environment variables
-
-```
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=your_backend_url
-
-e.g.
-VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
+```bash
+npm install
 ```
 
-Run the app: `npm run dev`
+2. Create `.env.local`:
 
-**Publish your changes**
+```bash
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
 
-Open [Base44.com](http://Base44.com) and click on Publish.
+# Optional local fallback while access_codes table is not ready:
+VITE_SIGNUP_ACCESS_CODE=TRACKREGA
+```
 
-**Docs & Support**
+3. Run the app:
 
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
+```bash
+npm run dev
+```
 
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+## Supabase
+
+The database schema lives in `supabase/schema.sql`.
+
+For an existing Supabase project, apply `supabase/admin-policies.sql` in the SQL editor
+to add admin access, signup access codes, and subscription-ready fields.
+
+## Product Notes
+
+- Signup is currently gated by a general access code.
+- Access codes are stored as SHA-256 hashes, not raw codes.
+- Payment is not connected yet, but the schema includes plan and subscription fields
+  for a future Stripe or similar integration.

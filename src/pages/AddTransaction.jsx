@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Transaction, Category, FinancialSource, User, Budget } from "@/entities/all";
+import { Transaction, Category, FinancialSource, Budget } from "@/entities/all";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { ArrowRight, CheckCircle, AlertCircle } from "lucide-react";

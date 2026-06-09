@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { User } from '@/entities/User';
 
 const DemoModeContext = createContext(null);
 
@@ -7,7 +7,7 @@ export function DemoModeProvider({ children }) {
   const [isDemoMode, setIsDemoMode] = useState(false);
   const [realUser, setRealUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  
+
   const demoUser = {
     id: 'demo_user_id',
     email: 'demo_new_user@trackrega.com',
@@ -22,7 +22,7 @@ export function DemoModeProvider({ children }) {
 
   const loadRealUser = async () => {
     try {
-      const user = await base44.auth.me();
+      const user = await User.me();
       setRealUser(user);
     } catch (error) {
       console.error('Error loading user:', error);
@@ -32,41 +32,37 @@ export function DemoModeProvider({ children }) {
   };
 
   const toggleDemoMode = () => {
-    setIsDemoMode(prev => !prev);
+    setIsDemoMode((prev) => !prev);
   };
 
-  const getCurrentUser = () => {
-    return isDemoMode ? demoUser : realUser;
-  };
+  const getCurrentUser = () => (isDemoMode ? demoUser : realUser);
 
   const filterDataForDemo = (data, entityType) => {
     if (!isDemoMode) return data;
-    
-    // In demo mode, show only system categories and no other data
+
     if (entityType === 'categories') {
-      return data.filter(item => item.is_system === true);
+      return data.filter((item) => item.is_system === true);
     }
-    
-    // For transactions, sources, budgets - show empty
+
     return [];
   };
 
-  const value = {
-    isDemoMode,
-    toggleDemoMode,
-    getCurrentUser,
-    filterDataForDemo,
-    realUser,
-    demoUser,
-    loading,
-  };
-
   if (loading) {
-    return null; // Let the child components handle their own loading
+    return null;
   }
 
   return (
-    <DemoModeContext.Provider value={value}>
+    <DemoModeContext.Provider
+      value={{
+        isDemoMode,
+        toggleDemoMode,
+        getCurrentUser,
+        filterDataForDemo,
+        realUser,
+        demoUser,
+        loading,
+      }}
+    >
       {children}
     </DemoModeContext.Provider>
   );

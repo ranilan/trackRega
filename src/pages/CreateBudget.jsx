@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -21,8 +20,7 @@ import {
   TrendingUp,
   TrendingDown
 } from "lucide-react";
-import { format, startOfMonth, endOfMonth, subMonths } from "date-fns";
-import { he } from "date-fns/locale";
+import { format, subMonths } from "date-fns";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);

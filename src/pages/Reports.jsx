@@ -1,19 +1,12 @@
 
 import React, { useState, useEffect } from "react";
 import { Transaction, Category, User } from "@/entities/all";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import {
-  ArrowRight,
-  TrendingUp,
-  TrendingDown,
-  BarChart3,
-  Calendar,
-  Download } from
+  ArrowRight } from
 "lucide-react";
 import { format, startOfYear, endOfYear, eachMonthOfInterval, startOfMonth, endOfMonth, getMonth } from "date-fns";
 import { he } from "date-fns/locale";

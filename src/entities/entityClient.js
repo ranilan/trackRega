@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabaseClient';
-import budgetsSeed from '../../base44-data-export/Budget.json';
-import categoriesSeed from '../../base44-data-export/Category.json';
-import financialSourcesSeed from '../../base44-data-export/FinancialSource.json';
-import transactionsSeed from '../../base44-data-export/Transaction.json';
+import budgetsSeed from '../../seed-data/Budget.json';
+import categoriesSeed from '../../seed-data/Category.json';
+import financialSourcesSeed from '../../seed-data/FinancialSource.json';
+import transactionsSeed from '../../seed-data/Transaction.json';
 
 const tableByEntity = {
   Budget: 'budgets',
@@ -80,7 +80,7 @@ const getCurrentUser = async () => {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('full_name, avatar_url, role, active_budget_group_name')
+    .select('full_name, avatar_url, role, plan, access_status, active_budget_group_name')
     .eq('email', user.email)
     .maybeSingle();
 
@@ -91,6 +91,9 @@ const getCurrentUser = async () => {
         email: user.email,
         full_name: user.user_metadata?.full_name || user.email,
         avatar_url: user.user_metadata?.avatar_url,
+        access_code_id: user.user_metadata?.access_code_id || null,
+        plan: 'free',
+        access_status: 'active',
         role: 'user',
         updated_at: new Date().toISOString(),
       },
@@ -106,6 +109,8 @@ const getCurrentUser = async () => {
     full_name: profile?.full_name || user.user_metadata?.full_name || user.email,
     picture: profile?.avatar_url || user.user_metadata?.avatar_url,
     role: profile?.role || (isConfiguredAdmin ? 'admin' : 'user'),
+    plan: profile?.plan || 'free',
+    access_status: profile?.access_status || 'active',
     active_budget_group_name:
       profile?.active_budget_group_name || user.user_metadata?.active_budget_group_name,
   };
@@ -117,7 +122,7 @@ const getLocalRows = (entityName) => {
     const stored = localStorage.getItem(storageKey);
     if (stored) return JSON.parse(stored);
   } catch {
-    // Ignore broken local cache and fall back to exported Base44 data.
+    // Ignore broken local cache and fall back to the original imported seed data.
   }
 
   return seedDataByEntity[entityName] ?? [];

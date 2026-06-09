@@ -10,9 +10,7 @@ import {
   PiggyBank,
   BarChart3,
   Users,
-  Settings,
   LogOut,
-  ChevronsLeft,
   ChevronsRight } from
 "lucide-react";
 import { Button } from "@/components/ui/button";

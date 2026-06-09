@@ -1,19 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { FinancialSource, Transaction, User } from "@/entities/all";
+import { FinancialSource, Transaction } from "@/entities/all";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import {
   Plus,
   ArrowRight,
-  Pencil,
-  Trash2,
   Landmark,
   CreditCard,
   Wallet,

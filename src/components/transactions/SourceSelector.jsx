@@ -125,7 +125,7 @@ export default function SourceSelector({ sources, transactions, categories, acti
         <ChevronLeft className="w-4 h-4" />
       </Button>
       
-      <style jsx>{`
+      <style>{`
         .custom-scrollbar::-webkit-scrollbar {
           height: 6px;
         }
