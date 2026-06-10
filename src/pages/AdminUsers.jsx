@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Activity, Database, KeyRound, Users } from 'lucide-react';
+import { Activity, Database, KeyRound, TicketCheck, Users } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
 import { User } from '@/entities/User';
 import { hashAccessCode } from '@/lib/accessCodes';
@@ -34,6 +34,8 @@ const emptyCodeForm = {
   code: '',
   maxUses: '',
   discountPercent: '',
+  validFrom: '',
+  validUntil: '',
 };
 
 const addCount = (usageByEmail, email, key) => {
@@ -44,10 +46,16 @@ const addCount = (usageByEmail, email, key) => {
   usageByEmail[email][key] += 1;
 };
 
+const formatDate = (value) => {
+  if (!value) return 'ללא';
+  return new Intl.DateTimeFormat('he-IL', { dateStyle: 'short' }).format(new Date(value));
+};
+
 export default function AdminUsers() {
   const [currentUser, setCurrentUser] = useState(null);
   const [profiles, setProfiles] = useState([]);
   const [accessCodes, setAccessCodes] = useState([]);
+  const [redemptions, setRedemptions] = useState([]);
   const [usageByEmail, setUsageByEmail] = useState({});
   const [codeForm, setCodeForm] = useState(emptyCodeForm);
   const [loading, setLoading] = useState(true);
@@ -72,21 +80,32 @@ export default function AdminUsers() {
         return;
       }
 
-      const [{ data: profilesData, error: profilesError }, { data: codesData, error: codesError }, ...usageResults] =
-        await Promise.all([
-          supabase
-            .from('profiles')
-            .select('id, email, full_name, role, plan, access_status, active_budget_group_name, created_at')
-            .order('created_at', { ascending: false }),
-          supabase
-            .from('access_codes')
-            .select('id, label, code_hash, is_active, max_uses, used_count, discount_percent, created_at')
-            .order('created_at', { ascending: false }),
-          ...usageTables.map(({ table }) => supabase.from(table).select('id, created_by, created_date')),
-        ]);
+      const [
+        { data: profilesData, error: profilesError },
+        { data: codesData, error: codesError },
+        { data: redemptionsData, error: redemptionsError },
+        ...usageResults
+      ] = await Promise.all([
+        supabase
+          .from('profiles')
+          .select('id, email, full_name, role, plan, access_status, active_budget_group_name, created_at')
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('access_codes')
+          .select(
+            'id, label, code_hash, is_active, max_uses, used_count, discount_percent, valid_from, valid_until, created_at',
+          )
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('access_code_redemptions')
+          .select('id, access_code_id, email, redeemed_at')
+          .order('redeemed_at', { ascending: false }),
+        ...usageTables.map(({ table }) => supabase.from(table).select('id, created_by, created_date')),
+      ]);
 
       if (profilesError) throw profilesError;
       if (codesError) throw codesError;
+      if (redemptionsError) throw redemptionsError;
 
       const nextUsageByEmail = {};
       usageResults.forEach((result, index) => {
@@ -97,6 +116,7 @@ export default function AdminUsers() {
 
       setProfiles(profilesData ?? []);
       setAccessCodes(codesData ?? []);
+      setRedemptions(redemptionsData ?? []);
       setUsageByEmail(nextUsageByEmail);
     } catch (loadError) {
       console.error('Error loading admin data:', loadError);
@@ -119,6 +139,8 @@ export default function AdminUsers() {
         code_hash: codeHash,
         max_uses: codeForm.maxUses ? Number(codeForm.maxUses) : null,
         discount_percent: codeForm.discountPercent ? Number(codeForm.discountPercent) : 0,
+        valid_from: codeForm.validFrom ? new Date(codeForm.validFrom).toISOString() : null,
+        valid_until: codeForm.validUntil ? new Date(codeForm.validUntil).toISOString() : null,
         created_by: currentUser.email,
       });
 
@@ -187,6 +209,29 @@ export default function AdminUsers() {
     });
   }, [currentUser, profiles, usageByEmail]);
 
+  const redemptionsByCode = useMemo(
+    () =>
+      redemptions.reduce((grouped, redemption) => {
+        if (!grouped[redemption.access_code_id]) {
+          grouped[redemption.access_code_id] = [];
+        }
+        grouped[redemption.access_code_id].push(redemption);
+        return grouped;
+      }, {}),
+    [redemptions],
+  );
+
+  const codeLabelById = useMemo(
+    () =>
+      accessCodes.reduce((labels, code) => {
+        labels[code.id] = code.label;
+        return labels;
+      }, {}),
+    [accessCodes],
+  );
+
+  const activeCodesCount = accessCodes.filter((code) => code.is_active).length;
+
   const totals = rows.reduce(
     (summary, row) => ({
       users: summary.users + 1,
@@ -232,11 +277,12 @@ export default function AdminUsers() {
           </div>
         )}
 
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-5">
           <SummaryCard title="משתמשים" value={totals.users} icon={Users} />
           <SummaryCard title="עסקאות" value={totals.transactions} icon={Activity} />
           <SummaryCard title="רשומות דאטה" value={totals.sources + totals.categories + totals.budgets} icon={Database} />
-          <SummaryCard title="קודי כניסה" value={accessCodes.length} icon={KeyRound} />
+          <SummaryCard title="קודים פעילים" value={`${activeCodesCount}/${accessCodes.length}`} icon={KeyRound} />
+          <SummaryCard title="מימושי קודים" value={redemptions.length} icon={TicketCheck} />
         </div>
 
         <Card className="border-emerald-900/50 bg-slate-950/70 text-white">
@@ -244,7 +290,7 @@ export default function AdminUsers() {
             <CardTitle className="text-xl">יצירת קוד כניסה</CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={createAccessCode} className="grid gap-3 md:grid-cols-[1.2fr_1fr_0.7fr_0.7fr_auto]">
+            <form onSubmit={createAccessCode} className="grid gap-3 md:grid-cols-[1.2fr_1fr_0.6fr_0.65fr_0.75fr_0.75fr_auto]">
               <Input
                 value={codeForm.label}
                 onChange={(event) => setCodeForm((prev) => ({ ...prev, label: event.target.value }))}
@@ -275,10 +321,27 @@ export default function AdminUsers() {
                 min="0"
                 max="100"
               />
+              <Input
+                value={codeForm.validFrom}
+                onChange={(event) => setCodeForm((prev) => ({ ...prev, validFrom: event.target.value }))}
+                className="border-emerald-900 bg-slate-900 text-white"
+                type="date"
+                aria-label="תוקף החל מתאריך"
+              />
+              <Input
+                value={codeForm.validUntil}
+                onChange={(event) => setCodeForm((prev) => ({ ...prev, validUntil: event.target.value }))}
+                className="border-emerald-900 bg-slate-900 text-white"
+                type="date"
+                aria-label="תוקף עד תאריך"
+              />
               <Button type="submit" disabled={savingCode} className="bg-emerald-500 text-slate-950 hover:bg-emerald-400">
                 {savingCode ? 'שומר...' : 'צור קוד'}
               </Button>
             </form>
+            <p className="mt-3 text-sm leading-6 text-emerald-100/80">
+              שדות התוקף והמכסה הם אופציונליים. את הקוד הגולמי כדאי לשמור אצלך ברגע היצירה, כי במערכת נשמר רק hash.
+            </p>
           </CardContent>
         </Card>
 
@@ -293,35 +356,80 @@ export default function AdminUsers() {
                   <TableHead className="text-right text-emerald-200">שם</TableHead>
                   <TableHead className="text-right text-emerald-200">Hash</TableHead>
                   <TableHead className="text-right text-emerald-200">שימושים</TableHead>
+                  <TableHead className="text-right text-emerald-200">מימושים בפועל</TableHead>
+                  <TableHead className="text-right text-emerald-200">תוקף מ־</TableHead>
+                  <TableHead className="text-right text-emerald-200">תוקף עד</TableHead>
                   <TableHead className="text-right text-emerald-200">הנחה</TableHead>
                   <TableHead className="text-right text-emerald-200">סטטוס</TableHead>
                   <TableHead className="text-right text-emerald-200">פעולה</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {accessCodes.map((code) => (
-                  <TableRow key={code.id} className="border-emerald-900/40 hover:bg-emerald-950/30">
-                    <TableCell className="font-medium text-white">{code.label}</TableCell>
-                    <TableCell className="font-mono text-xs text-emerald-100">{code.code_hash.slice(0, 12)}...</TableCell>
-                    <TableCell>
-                      {code.used_count}
-                      {code.max_uses ? ` / ${code.max_uses}` : ''}
+                {accessCodes.map((code) => {
+                  const codeRedemptions = redemptionsByCode[code.id] ?? [];
+
+                  return (
+                    <TableRow key={code.id} className="border-emerald-900/40 hover:bg-emerald-950/30">
+                      <TableCell className="font-medium text-white">{code.label}</TableCell>
+                      <TableCell className="font-mono text-xs text-emerald-100">{code.code_hash.slice(0, 12)}...</TableCell>
+                      <TableCell>
+                        {code.used_count}
+                        {code.max_uses ? ` / ${code.max_uses}` : ''}
+                      </TableCell>
+                      <TableCell>{codeRedemptions.length}</TableCell>
+                      <TableCell>{formatDate(code.valid_from)}</TableCell>
+                      <TableCell>{formatDate(code.valid_until)}</TableCell>
+                      <TableCell>{code.discount_percent || 0}%</TableCell>
+                      <TableCell>{code.is_active ? 'פעיל' : 'כבוי'}</TableCell>
+                      <TableCell>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => toggleAccessCode(code)}
+                          className="border-emerald-800 bg-slate-900 text-emerald-100 hover:bg-slate-800"
+                        >
+                          {code.is_active ? 'כבה' : 'הפעל'}
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
+        <Card className="border-emerald-900/50 bg-slate-950/70 text-white">
+          <CardHeader>
+            <CardTitle className="text-xl">מימושים אחרונים</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow className="border-emerald-900/50 hover:bg-transparent">
+                  <TableHead className="text-right text-emerald-200">קוד</TableHead>
+                  <TableHead className="text-right text-emerald-200">מייל</TableHead>
+                  <TableHead className="text-right text-emerald-200">תאריך מימוש</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {redemptions.slice(0, 20).map((redemption) => (
+                  <TableRow key={redemption.id} className="border-emerald-900/40 hover:bg-emerald-950/30">
+                    <TableCell className="font-medium text-white">
+                      {codeLabelById[redemption.access_code_id] || 'קוד לא ידוע'}
                     </TableCell>
-                    <TableCell>{code.discount_percent || 0}%</TableCell>
-                    <TableCell>{code.is_active ? 'פעיל' : 'כבוי'}</TableCell>
-                    <TableCell>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => toggleAccessCode(code)}
-                        className="border-emerald-800 bg-slate-900 text-emerald-100 hover:bg-slate-800"
-                      >
-                        {code.is_active ? 'כבה' : 'הפעל'}
-                      </Button>
-                    </TableCell>
+                    <TableCell className="text-emerald-100">{redemption.email || 'ללא מייל'}</TableCell>
+                    <TableCell>{formatDate(redemption.redeemed_at)}</TableCell>
                   </TableRow>
                 ))}
+                {redemptions.length === 0 && (
+                  <TableRow className="border-emerald-900/40 hover:bg-transparent">
+                    <TableCell colSpan={3} className="py-6 text-center text-emerald-100/70">
+                      עדיין אין מימושי קודים להצגה.
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </CardContent>

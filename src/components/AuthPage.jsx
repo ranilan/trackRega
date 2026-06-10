@@ -93,6 +93,25 @@ export default function AuthPage() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    setError('');
+    setMessage('');
+
+    const { error: authError } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+
+    setLoading(false);
+
+    if (authError) {
+      setError(authError.message);
+    }
+  };
+
   const recordAccessCodeUse = async (accessCodeId, userId) => {
     if (!accessCodeId) return;
 
@@ -311,6 +330,28 @@ export default function AuthPage() {
                 </Button>
                 <p className="mt-3 text-center text-xs leading-5 text-slate-400">
                   גם בהרשמה עם Google צריך להזין קודם קוד אישי.
+                </p>
+              </>
+            )}
+            {!isSignup && (
+              <>
+                <div className="my-5 flex items-center gap-3">
+                  <div className="h-px flex-1 bg-white/10" />
+                  <span className="text-xs text-slate-400">או</span>
+                  <div className="h-px flex-1 bg-white/10" />
+                </div>
+                <Button
+                  type="button"
+                  onClick={handleGoogleLogin}
+                  disabled={loading}
+                  variant="outline"
+                  className="w-full border-white/10 bg-slate-900 text-slate-100 hover:bg-slate-800 hover:text-white"
+                >
+                  <Chrome className="ml-2 h-4 w-4" />
+                  התחבר עם Google
+                </Button>
+                <p className="mt-3 text-center text-xs leading-5 text-slate-400">
+                  מי שעדיין לא נרשם צריך לעבור למסך הרשמה ולהזין קוד אישי לפני Google.
                 </p>
               </>
             )}
