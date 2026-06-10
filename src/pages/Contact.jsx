@@ -1,4 +1,4 @@
-import { Mail, MessageCircle, Send, Share2 } from 'lucide-react';
+import { Bot, ExternalLink, Mail, Send, Share2 } from 'lucide-react';
 import PublicPageShell from '@/components/PublicPageShell';
 
 const contactOptions = [
@@ -10,19 +10,27 @@ const contactOptions = [
     label: 'ranilan00@gmail.com',
   },
   {
-    icon: MessageCircle,
-    title: 'וואטסאפ',
-    text: 'נוסיף כאן קישור ישיר אחרי שנבחר מספר ציבורי שמתאים לפניות מהאתר.',
+    icon: Bot,
+    title: 'צ׳אט AI',
+    text: 'כאן נבנה בהמשך סוכן שמכיר את שיטת העבודה של TrackRega ויעזור לענות על שאלות ראשונות.',
     href: null,
-    label: 'יעודכן בקרוב',
+    label: 'בקרוב',
   },
   {
     icon: Share2,
     title: 'רשתות חברתיות',
-    text: 'נחבר כאן את הערוצים הרלוונטיים כשנחליט איפה נכון ש-TrackRega יהיה נוכח.',
+    text: 'אפשר להכיר אותי ואת הפעילות שלי גם בערוצים החברתיים.',
     href: null,
-    label: 'בהכנה',
+    label: 'קישורים בהמשך העמוד',
   },
+];
+
+const socialLinks = [
+  { label: 'Facebook אישי', href: 'https://www.facebook.com/ranilan.ri' },
+  { label: 'Ranalyze בפייסבוק', href: 'https://www.facebook.com/ranalyze.pro' },
+  { label: 'Instagram', href: 'https://www.instagram.com/ranilan1' },
+  { label: 'X / Twitter', href: 'https://x.com/ranil111' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ran-ilan-0561a647/' },
 ];
 
 export default function Contact() {
@@ -60,6 +68,24 @@ export default function Contact() {
             </article>
           ))}
         </div>
+
+        <section className="mt-10 rounded border border-white/10 bg-white/[0.04] p-5">
+          <h2 className="text-2xl font-semibold">קישורים</h2>
+          <div className="mt-5 flex flex-wrap gap-3">
+            {socialLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded border border-[#2DD4BF]/35 px-4 py-2 text-[#CBD5E1] transition hover:bg-[#2DD4BF]/10 hover:text-white"
+              >
+                {link.label}
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            ))}
+          </div>
+        </section>
       </section>
     </PublicPageShell>
   );

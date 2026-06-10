@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   ArrowLeft,
   BarChart3,
   CalendarCheck,
   CheckCircle2,
-  Chrome,
   Clock3,
   ShieldCheck,
   Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import BrandWordmark from '@/components/BrandWordmark';
+import PublicPageShell from '@/components/PublicPageShell';
 import { supabase } from '@/lib/supabaseClient';
 import { validateAccessCode } from '@/lib/accessCodes';
 
@@ -20,17 +18,17 @@ const benefits = [
   {
     icon: Clock3,
     title: '20 דקות בשבוע',
-    text: 'לא מחכים לסוף חודש. פותחים חלון קצר ביומן ומעדכנים כשהכול עדיין טרי.',
+    text: 'פותחים חלון קצר, מעדכנים כשהדברים עוד טריים, ולא מחכים לסוף החודש כדי להבין מה קרה.',
   },
   {
     icon: CalendarCheck,
-    title: 'מעקב לפני ניתוח',
-    text: 'מתחילים מההרגל שמייצר שליטה, ורק אחר כך בונים תקציב מדויק יותר.',
+    title: 'קודם מעקב, אחר כך החלטות',
+    text: 'מתחילים מהרגל קטן שמייצר בהירות. אחרי שיש תמונה, הרבה יותר קל לבנות תקציב שמתאים למציאות.',
   },
   {
     icon: BarChart3,
-    title: 'תובנות ביחס גבוה למאמץ',
-    text: 'מעט עבודה עקבית נותנת תמונה ברורה: איפה הכסף זז, ומה צריך תיקון עכשיו.',
+    title: 'פחות ניחושים',
+    text: 'כמה דקות עקביות נותנות תמונה ברורה יותר: לאן הכסף זז, מה חוזר על עצמו, ומה כדאי לשנות קודם.',
   },
 ];
 
@@ -50,25 +48,6 @@ export default function AuthPage() {
     setMode(nextMode);
     setError('');
     setMessage('');
-  };
-
-  const handleGoogleLogin = async () => {
-    setLoading(true);
-    setError('');
-    setMessage('');
-
-    const { error: authError } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: window.location.origin,
-      },
-    });
-
-    setLoading(false);
-
-    if (authError) {
-      setError(authError.message);
-    }
   };
 
   const recordAccessCodeUse = async (accessCodeId, userId) => {
@@ -133,202 +112,154 @@ export default function AuthPage() {
   };
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#0F172A] text-white">
-      <div className="grid min-h-screen lg:grid-cols-[1.12fr_0.88fr]">
-        <section className="flex min-w-0 items-center px-5 py-10 sm:px-8 lg:px-14">
-          <div className="mx-auto w-full min-w-0 max-w-3xl text-center sm:text-right">
-            <div className="mb-10 flex items-center justify-center sm:justify-start">
-              <BrandWordmark />
-            </div>
-            <nav className="mb-8 flex flex-wrap items-center justify-center gap-2 text-sm text-[#CBD5E1] sm:justify-start">
-              <Link to="/About" className="rounded px-3 py-2 transition hover:bg-[#2DD4BF]/10 hover:text-white">
-                מי אנחנו
-              </Link>
-              <Link to="/Contact" className="rounded px-3 py-2 transition hover:bg-[#2DD4BF]/10 hover:text-white">
-                צור קשר
-              </Link>
-              <Link to="/PersonalGuidance" className="rounded px-3 py-2 transition hover:bg-[#2DD4BF]/10 hover:text-white">
-                ליווי אישי
-              </Link>
-            </nav>
-
-            <div className="max-w-2xl space-y-7">
-              <div className="inline-flex max-w-full items-center justify-center gap-2 rounded border border-[#2DD4BF]/40 bg-[#2DD4BF]/10 px-3 py-2 text-sm text-[#CBD5E1]">
-                <Sparkles className="h-4 w-4" />
-                <span>עכשיו בהרשמה מוקדמת עם קוד כניסה</span>
-              </div>
-
-              <div className="space-y-4">
-                <h1
-                  className="mx-auto max-w-2xl text-2xl font-bold leading-snug sm:mx-0 sm:text-5xl sm:leading-tight"
-                  dir="rtl"
-                >
-                  <span className="block">במקום לחפור אחורה,</span>
-                  <span className="block">מתחילים לעקוב קדימה.</span>
-                </h1>
-                <p className="mx-auto max-w-[310px] text-base leading-8 text-slate-200 sm:mx-0 sm:max-w-xl sm:text-lg" dir="rtl">
-                  האפליקציה בנויה לאנשים שרוצים שליטה בכסף בלי להפוך את החיים לפרויקט.
-                  מתחילים ממעקב ידני קצר, פעם בשבוע, ומשם בונים תקציב שמחובר למציאות.
-                </p>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-3">
-                {benefits.map((benefit) => (
-                  <div key={benefit.title} className="rounded border border-white/10 bg-white/[0.04] p-4">
-                    <benefit.icon className="mb-3 h-5 w-5 text-[#2DD4BF]" />
-                    <h2 className="text-base font-semibold" dir="rtl">{benefit.title}</h2>
-                    <p className="mx-auto mt-2 max-w-[280px] text-sm leading-6 text-slate-300" dir="rtl">
-                      {benefit.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap gap-3 text-sm text-slate-200">
-                <span className="inline-flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-300" />
-                  הזנה ידנית ומהירה
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-300" />
-                  תקציבים, קטגוריות ודוחות
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-emerald-300" />
-                  מוכן לתשתית מנויים בהמשך
-                </span>
-              </div>
-            </div>
+    <PublicPageShell>
+      <section className="mx-auto grid max-w-6xl gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-16">
+        <div className="max-w-2xl text-center sm:text-right">
+          <div className="inline-flex max-w-full items-center justify-center gap-2 rounded border border-[#2DD4BF]/40 bg-[#2DD4BF]/10 px-3 py-2 text-sm text-[#CBD5E1]">
+            <Sparkles className="h-4 w-4" />
+            <span>הרשמה מוקדמת עם קוד כניסה</span>
           </div>
-        </section>
 
-        <section
-          className="flex min-w-0 items-center border-t border-white/10 bg-[#111D2B] px-5 py-10 sm:px-8 lg:border-r lg:border-t-0 lg:px-12"
-        >
-          <div className="mx-auto w-full min-w-0 max-w-md text-right">
-            <div className="rounded border border-white/10 bg-slate-950/55 p-6 shadow-2xl">
-              <div className="mb-6">
-                <p className="text-sm text-emerald-200">{isSignup ? 'פתיחת חשבון' : 'כניסה לחשבון'}</p>
-                <h2 className="mt-1 text-2xl font-bold">
-                  {isSignup ? 'מתחילים מעקב שבועי' : 'טוב שחזרת'}
-                </h2>
+          <div className="mt-7 space-y-4">
+            <h1 className="mx-auto max-w-2xl text-3xl font-bold leading-tight sm:mx-0 sm:text-5xl">
+              במקום לחפור אחורה, מתחילים לעקוב קדימה.
+            </h1>
+            <p className="mx-auto max-w-xl text-lg leading-9 text-[#CBD5E1] sm:mx-0">
+              TrackRega נבנה לאנשים שרוצים להחזיר שליטה בלי להפוך את ניהול הכסף לפרויקט. מתחילים ממעקב ידני קצר,
+              פעם בשבוע, ומשם בונים תמונה שאפשר באמת לעבוד איתה.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-3 sm:grid-cols-3">
+            {benefits.map((benefit) => (
+              <div key={benefit.title} className="rounded border border-white/10 bg-white/[0.04] p-4">
+                <benefit.icon className="mb-3 h-5 w-5 text-[#2DD4BF]" />
+                <h2 className="text-base font-semibold">{benefit.title}</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-300">{benefit.text}</p>
               </div>
+            ))}
+          </div>
 
-              <div className="mb-5 grid grid-cols-2 rounded border border-white/10 bg-slate-900/70 p-1">
-                <button
-                  type="button"
-                  onClick={() => switchMode('signin')}
-                  className={`rounded px-3 py-2 text-sm font-medium transition ${
-                    !isSignup ? 'bg-[#2DD4BF] text-slate-950' : 'text-slate-200 hover:text-white'
-                  }`}
-                >
-                  התחברות
-                </button>
-                <button
-                  type="button"
-                  onClick={() => switchMode('signup')}
-                  className={`rounded px-3 py-2 text-sm font-medium transition ${
-                    isSignup ? 'bg-[#2DD4BF] text-slate-950' : 'text-slate-200 hover:text-white'
-                  }`}
-                >
-                  הרשמה
-                </button>
-              </div>
+          <div className="mt-7 flex flex-wrap justify-center gap-3 text-sm text-slate-200 sm:justify-start">
+            <span className="inline-flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-[#2DD4BF]" />
+              הזנה ידנית ומהירה
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-[#2DD4BF]" />
+              תקציבים, קטגוריות ודוחות
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-[#2DD4BF]" />
+              הרשמה בקוד בלבד
+            </span>
+          </div>
+        </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
-                {isSignup && (
-                  <div>
-                    <label className="mb-1 block text-sm text-slate-200">שם מלא</label>
-                    <Input
-                      value={fullName}
-                      onChange={(event) => setFullName(event.target.value)}
-                      autoComplete="name"
-                      className="border-white/10 bg-slate-900 text-white"
-                    />
-                  </div>
-                )}
+        <div className="mx-auto w-full min-w-0 max-w-md text-right">
+          <div className="rounded border border-white/10 bg-slate-950/55 p-6 shadow-2xl">
+            <div className="mb-6">
+              <p className="text-sm text-[#2DD4BF]">{isSignup ? 'פתיחת חשבון' : 'כניסה לחשבון'}</p>
+              <h2 className="mt-1 text-2xl font-bold">
+                {isSignup ? 'מתחילים מעקב שבועי' : 'טוב שחזרת'}
+              </h2>
+            </div>
 
-                <div>
-                  <label className="mb-1 block text-sm text-slate-200">אימייל</label>
-                  <Input
-                    type="email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    autoComplete="email"
-                    required
-                    className="border-white/10 bg-slate-900 text-white"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-sm text-slate-200">סיסמה</label>
-                  <Input
-                    type="password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    autoComplete={isSignup ? 'new-password' : 'current-password'}
-                    minLength={6}
-                    required
-                    className="border-white/10 bg-slate-900 text-white"
-                  />
-                </div>
-
-                {isSignup && (
-                  <div>
-                    <label className="mb-1 block text-sm text-slate-200">קוד כניסה</label>
-                    <Input
-                      value={accessCode}
-                      onChange={(event) => setAccessCode(event.target.value)}
-                      autoComplete="one-time-code"
-                      required
-                      className="border-white/10 bg-slate-900 text-white"
-                      placeholder="הקוד שקיבלת מרן"
-                    />
-                    <p className="mt-2 text-xs leading-5 text-slate-400">
-                      בשלב ההשקה הכניסה ללא תשלום למי שקיבל קוד.
-                    </p>
-                  </div>
-                )}
-
-                {error && <p className="rounded bg-red-950/70 p-3 text-sm text-red-100">{error}</p>}
-                {message && <p className="rounded bg-emerald-950/70 p-3 text-sm text-emerald-100">{message}</p>}
-
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-[#2DD4BF] font-semibold text-slate-950 hover:bg-[#5EEAD4]"
-                >
-                  {loading ? 'רק רגע...' : isSignup ? 'צור חשבון' : 'התחבר'}
-                  {!loading && <ArrowLeft className="mr-2 h-4 w-4" />}
-                </Button>
-              </form>
-
-              <div className="my-5 flex items-center gap-3">
-                <div className="h-px flex-1 bg-white/10" />
-                <span className="text-xs text-slate-400">או</span>
-                <div className="h-px flex-1 bg-white/10" />
-              </div>
-
-              <Button
+            <div className="mb-5 grid grid-cols-2 rounded border border-white/10 bg-slate-900/70 p-1">
+              <button
                 type="button"
-                onClick={handleGoogleLogin}
-                disabled={loading}
-                variant="outline"
-                className="w-full border-white/10 bg-slate-900 text-slate-100 hover:bg-slate-800 hover:text-white"
+                onClick={() => switchMode('signin')}
+                className={`rounded px-3 py-2 text-sm font-medium transition ${
+                  !isSignup ? 'bg-[#2DD4BF] text-slate-950' : 'text-slate-200 hover:text-white'
+                }`}
               >
-                <Chrome className="ml-2 h-4 w-4" />
-                התחברות עם Google
-              </Button>
+                התחברות
+              </button>
+              <button
+                type="button"
+                onClick={() => switchMode('signup')}
+                className={`rounded px-3 py-2 text-sm font-medium transition ${
+                  isSignup ? 'bg-[#2DD4BF] text-slate-950' : 'text-slate-200 hover:text-white'
+                }`}
+              >
+                הרשמה
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
+              {isSignup && (
+                <div>
+                  <label className="mb-1 block text-sm text-slate-200">שם מלא</label>
+                  <Input
+                    value={fullName}
+                    onChange={(event) => setFullName(event.target.value)}
+                    autoComplete="name"
+                    className="border-white/10 bg-slate-900 text-white"
+                  />
+                </div>
+              )}
+
+              <div>
+                <label className="mb-1 block text-sm text-slate-200">אימייל</label>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  autoComplete="email"
+                  required
+                  className="border-white/10 bg-slate-900 text-white"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1 block text-sm text-slate-200">סיסמה</label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  autoComplete={isSignup ? 'new-password' : 'current-password'}
+                  minLength={6}
+                  required
+                  className="border-white/10 bg-slate-900 text-white"
+                />
+              </div>
 
               {isSignup && (
-                <p className="mt-4 text-center text-xs leading-5 text-slate-400">
-                  בהמשך ייתכנו מסלולים בתשלום, הנחות וקודים ייעודיים. כרגע ההרשמה פתוחה בקוד בלבד.
-                </p>
+                <div>
+                  <label className="mb-1 block text-sm text-slate-200">קוד כניסה</label>
+                  <Input
+                    value={accessCode}
+                    onChange={(event) => setAccessCode(event.target.value)}
+                    autoComplete="one-time-code"
+                    required
+                    className="border-white/10 bg-slate-900 text-white"
+                    placeholder="הקוד שקיבלת מרן"
+                  />
+                  <p className="mt-2 text-xs leading-5 text-slate-400">
+                    כרגע פתיחת חשבון אפשרית רק עם קוד אישי.
+                  </p>
+                </div>
               )}
-            </div>
+
+              {error && <p className="rounded bg-red-950/70 p-3 text-sm text-red-100">{error}</p>}
+              {message && <p className="rounded bg-emerald-950/70 p-3 text-sm text-emerald-100">{message}</p>}
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#2DD4BF] font-semibold text-slate-950 hover:bg-[#5EEAD4]"
+              >
+                {loading ? 'רק רגע...' : isSignup ? 'צור חשבון' : 'התחבר'}
+                {!loading && <ArrowLeft className="mr-2 h-4 w-4" />}
+              </Button>
+            </form>
+
+            <p className="mt-5 text-center text-xs leading-5 text-slate-400">
+              התחברות והרשמה עם Google כבויות כרגע כדי לשמור על הרשמה בקוד אישי בלבד.
+            </p>
           </div>
-        </section>
-      </div>
-    </main>
+        </div>
+      </section>
+    </PublicPageShell>
   );
 }
