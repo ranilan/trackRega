@@ -5,21 +5,21 @@ const contactOptions = [
   {
     icon: Mail,
     title: 'מייל',
-    text: 'לפניות על שימוש במערכת, ליווי אישי או שיתופי פעולה.',
+    text: 'אפשר לכתוב על שימוש ב-TrackRega, על ליווי אישי, או פשוט לתאר איפה נתקעתם עם ניהול הכסף.',
     href: 'mailto:ranilan00@gmail.com',
     label: 'ranilan00@gmail.com',
   },
   {
     icon: MessageCircle,
     title: 'וואטסאפ',
-    text: 'קישור ישיר יתווסף אחרי שנבחר מספר ציבורי מתאים.',
+    text: 'נוסיף כאן קישור ישיר אחרי שנבחר מספר ציבורי שמתאים לפניות מהאתר.',
     href: null,
     label: 'יעודכן בקרוב',
   },
   {
     icon: Share2,
     title: 'רשתות חברתיות',
-    text: 'כאן יחוברו LinkedIn / Facebook / Instagram לפי הערוצים שנבחר.',
+    text: 'נחבר כאן את הערוצים הרלוונטיים כשנחליט איפה נכון ש-TrackRega יהיה נוכח.',
     href: null,
     label: 'בהכנה',
   },
@@ -31,10 +31,10 @@ export default function Contact() {
       <section className="mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:py-16">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm font-semibold text-[#2DD4BF]">צור קשר</p>
-          <h1 className="text-3xl font-bold leading-tight sm:text-5xl">אפשר להתחיל בשאלה אחת פשוטה.</h1>
+          <h1 className="text-3xl font-bold leading-tight sm:text-5xl">אפשר להתחיל גם בלי לדעת בדיוק מה לשאול.</h1>
           <p className="mt-6 text-lg leading-9 text-[#CBD5E1]">
-            אם TrackRega נראה מתאים, אם יש התלבטות לגבי ליווי אישי, או אם רוצים להבין איך להתחיל מעקב שבועי,
-            אפשר לפנות ונבדוק יחד מה הצעד הבא.
+            אם TrackRega נראה רלוונטי, אם יש התלבטות לגבי ליווי אישי, או אם פשוט רוצים להבין איך מתחילים לעקוב
+            בלי להסתבך, אפשר לשלוח הודעה. נתחיל מהמצב הקיים ונראה מה הצעד הבא ההגיוני.
           </p>
         </div>
 
