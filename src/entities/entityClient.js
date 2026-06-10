@@ -32,6 +32,29 @@ const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS || '')
   .filter(Boolean);
 
 const isLocalFallbackEnabled = import.meta.env.DEV;
+const pendingGoogleAccessCodeKey = 'trackrega_pending_google_access_code';
+
+const getPendingGoogleAccessCodeId = () => {
+  try {
+    const pending = JSON.parse(sessionStorage.getItem(pendingGoogleAccessCodeKey) || 'null');
+    if (!pending?.accessCodeId || !pending?.createdAt) return null;
+    if (Date.now() - pending.createdAt > 30 * 60 * 1000) {
+      sessionStorage.removeItem(pendingGoogleAccessCodeKey);
+      return null;
+    }
+    return pending.accessCodeId;
+  } catch {
+    return null;
+  }
+};
+
+const clearPendingGoogleAccessCode = () => {
+  try {
+    sessionStorage.removeItem(pendingGoogleAccessCodeKey);
+  } catch {
+    // Ignore storage failures; auth should not depend on cleanup.
+  }
+};
 
 const randomId = () => {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) {
@@ -86,14 +109,23 @@ const getCurrentUser = async () => {
     .eq('email', user.email)
     .maybeSingle();
 
+  const isConfiguredAdmin = adminEmails.includes(user.email.toLowerCase());
+  const pendingGoogleAccessCodeId = getPendingGoogleAccessCodeId();
+  const accessCodeId = user.user_metadata?.access_code_id || pendingGoogleAccessCodeId;
+
   if (!profile) {
+    if (!accessCodeId && !isConfiguredAdmin) {
+      await supabase.auth.signOut();
+      throw new Error('Access code is required for new users');
+    }
+
     await supabase.from('profiles').upsert(
       {
         id: user.id,
         email: user.email,
         full_name: user.user_metadata?.full_name || user.email,
         avatar_url: user.user_metadata?.avatar_url,
-        access_code_id: user.user_metadata?.access_code_id || null,
+        access_code_id: accessCodeId || null,
         plan: 'free',
         access_status: 'active',
         role: 'user',
@@ -101,9 +133,16 @@ const getCurrentUser = async () => {
       },
       { onConflict: 'email' },
     );
-  }
 
-  const isConfiguredAdmin = adminEmails.includes(user.email.toLowerCase());
+    if (pendingGoogleAccessCodeId) {
+      await supabase.rpc('record_access_code_use', {
+        access_code_id: pendingGoogleAccessCodeId,
+        signed_up_user_id: user.id,
+        signed_up_email: user.email,
+      });
+      clearPendingGoogleAccessCode();
+    }
+  }
 
   return {
     id: user.id,

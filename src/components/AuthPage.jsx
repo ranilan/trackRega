@@ -4,9 +4,9 @@ import {
   BarChart3,
   CalendarCheck,
   CheckCircle2,
+  Chrome,
   Clock3,
   ShieldCheck,
-  Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,6 +32,8 @@ const benefits = [
   },
 ];
 
+const pendingGoogleAccessCodeKey = 'trackrega_pending_google_access_code';
+
 export default function AuthPage() {
   const [mode, setMode] = useState('signin');
   const [fullName, setFullName] = useState('');
@@ -48,6 +50,47 @@ export default function AuthPage() {
     setMode(nextMode);
     setError('');
     setMessage('');
+  };
+
+  const handleGoogleSignup = async () => {
+    setLoading(true);
+    setError('');
+    setMessage('');
+
+    const validation = await validateAccessCode(supabase, accessCode);
+    if (!validation.isValid) {
+      setError(validation.message);
+      setLoading(false);
+      return;
+    }
+
+    if (!validation.accessCodeId) {
+      setError('הרשמה עם Google זמינה רק עם קוד כניסה שמנוהל במערכת.');
+      setLoading(false);
+      return;
+    }
+
+    sessionStorage.setItem(
+      pendingGoogleAccessCodeKey,
+      JSON.stringify({
+        accessCodeId: validation.accessCodeId,
+        createdAt: Date.now(),
+      }),
+    );
+
+    const { error: authError } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+
+    setLoading(false);
+
+    if (authError) {
+      sessionStorage.removeItem(pendingGoogleAccessCodeKey);
+      setError(authError.message);
+    }
   };
 
   const recordAccessCodeUse = async (accessCodeId, userId) => {
@@ -115,11 +158,6 @@ export default function AuthPage() {
     <PublicPageShell>
       <section className="mx-auto grid max-w-6xl gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-16">
         <div className="max-w-2xl text-center sm:text-right">
-          <div className="inline-flex max-w-full items-center justify-center gap-2 rounded border border-[#2DD4BF]/40 bg-[#2DD4BF]/10 px-3 py-2 text-sm text-[#CBD5E1]">
-            <Sparkles className="h-4 w-4" />
-            <span>הרשמה מוקדמת עם קוד כניסה</span>
-          </div>
-
           <div className="mt-7 space-y-4">
             <h1 className="mx-auto max-w-2xl text-3xl font-bold leading-tight sm:mx-0 sm:text-5xl">
               במקום לחפור אחורה, מתחילים לעקוב קדימה.
@@ -254,9 +292,28 @@ export default function AuthPage() {
               </Button>
             </form>
 
-            <p className="mt-5 text-center text-xs leading-5 text-slate-400">
-              התחברות והרשמה עם Google כבויות כרגע כדי לשמור על הרשמה בקוד אישי בלבד.
-            </p>
+            {isSignup && (
+              <>
+                <div className="my-5 flex items-center gap-3">
+                  <div className="h-px flex-1 bg-white/10" />
+                  <span className="text-xs text-slate-400">או</span>
+                  <div className="h-px flex-1 bg-white/10" />
+                </div>
+                <Button
+                  type="button"
+                  onClick={handleGoogleSignup}
+                  disabled={loading || !accessCode.trim()}
+                  variant="outline"
+                  className="w-full border-white/10 bg-slate-900 text-slate-100 hover:bg-slate-800 hover:text-white"
+                >
+                  <Chrome className="ml-2 h-4 w-4" />
+                  בדוק קוד והמשך עם Google
+                </Button>
+                <p className="mt-3 text-center text-xs leading-5 text-slate-400">
+                  גם בהרשמה עם Google צריך להזין קודם קוד אישי.
+                </p>
+              </>
+            )}
           </div>
         </div>
       </section>
