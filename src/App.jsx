@@ -15,6 +15,9 @@ import Budgets from './pages/Budgets';
 import Reports from './pages/Reports';
 import CreateBudget from './pages/CreateBudget';
 import AdminUsers from './pages/AdminUsers';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import PersonalGuidance from './pages/PersonalGuidance';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, isAuthenticated } = useAuth();
@@ -60,7 +63,12 @@ function App() {
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
-          <AuthenticatedApp />
+          <Routes>
+            <Route path="/About" element={<About />} />
+            <Route path="/Contact" element={<Contact />} />
+            <Route path="/PersonalGuidance" element={<PersonalGuidance />} />
+            <Route path="/*" element={<AuthenticatedApp />} />
+          </Routes>
         </Router>
         <Toaster />
       </QueryClientProvider>

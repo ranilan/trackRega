@@ -87,7 +87,7 @@ export default function Dashboard() {
 
   const lastTransactionInfo = (() => {
     if (transactions.length === 0) return null;
-    const lastTransaction = transactions.sort((a,b) => new Date(b.created_date) - new Date(a.created_date))[0];
+    const lastTransaction = [...transactions].sort((a, b) => new Date(b.created_date).getTime() - new Date(a.created_date).getTime())[0];
     const daysSince = differenceInDays(now, new Date(lastTransaction.created_date));
     return {
       date: format(new Date(lastTransaction.created_date), "d בMMMM yyyy", { locale: he }),

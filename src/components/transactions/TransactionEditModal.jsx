@@ -10,13 +10,20 @@ import { Calendar as CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function TransactionEditModal({ isOpen, onOpenChange, transaction, sources, categories, onUpdateTransaction }) {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    amount: '',
+    date: new Date(),
+    type: 'expense',
+    source_id: '',
+    category_id: '',
+    description: ''
+  });
   
   useEffect(() => {
     if (transaction) {
       setFormData({
         amount: transaction.amount || '',
-        date: new Date(transaction.date) || new Date(),
+        date: transaction.date ? new Date(transaction.date) : new Date(),
         type: transaction.type || 'expense',
         source_id: transaction.source_id || '',
         category_id: transaction.category_id || '',

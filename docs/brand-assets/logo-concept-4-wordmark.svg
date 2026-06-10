@@ -1,0 +1,10 @@
+<svg width="640" height="240" viewBox="0 0 640 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">TrackRega logo - English tagline</title>
+  <desc id="desc">A sophisticated minimalist wordmark with a calm tracking accent and English tagline.</desc>
+  <rect width="640" height="240" rx="28" fill="#0F172A"/>
+  <text x="72" y="119" fill="#F8FAFC" font-family="Inter, Assistant, Arial, sans-serif" font-size="64" font-weight="650" letter-spacing="0">Track</text>
+  <text x="238" y="119" fill="#2DD4BF" font-family="Inter, Assistant, Arial, sans-serif" font-size="64" font-weight="650" letter-spacing="0">Rega</text>
+  <path d="M76 146H164C184 146 192 131 211 131C230 131 238 146 258 146H378" stroke="#F59E0B" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="378" cy="146" r="7" fill="#F8FAFC"/>
+  <text x="76" y="179" fill="#CBD5E1" font-family="Inter, Assistant, Arial, sans-serif" font-size="18" font-weight="500" letter-spacing="0">simple weekly tracking for a fresh start</text>
+</svg>

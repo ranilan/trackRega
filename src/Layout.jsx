@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import BrandWordmark from "@/components/BrandWordmark";
 import { DemoModeProvider } from "@/components/DemoModeContext";
 
 const navigationItems = [
@@ -120,21 +121,21 @@ export default function Layout({ children, currentPageName }) {
   return (
     <DemoModeProvider>
       <TooltipProvider delayDuration={0}>
-        <div className="min-h-screen flex w-full bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-900" dir="rtl">
+        <div className="min-h-screen flex w-full bg-gradient-to-br from-[#0F172A] via-slate-900 to-[#12343B]" dir="rtl">
           <aside
             className={`
-              flex flex-col bg-emerald-950/50 backdrop-blur-xl border-r border-emerald-800/30 
+              flex flex-col bg-[#0F172A]/85 backdrop-blur-xl border-r border-[#2DD4BF]/20 
               transition-all duration-300 ease-in-out
               ${isSidebarCollapsed ? 'w-20' : 'w-72'}
             `}>
 
-            <div className="border-b border-emerald-800/30 p-4 h-[73px] flex items-center justify-between">
+            <div className="border-b border-[#2DD4BF]/20 p-4 h-[73px] flex items-center justify-between">
               {!isSidebarCollapsed &&
               <Button
                 variant="outline"
                 size="icon"
                 onClick={toggleSidebar}
-                className="bg-transparent border-emerald-700 text-emerald-300 hover:bg-emerald-800/50 hover:border-emerald-600 hover:text-white">
+                className="bg-transparent border-[#2DD4BF]/50 text-[#2DD4BF] hover:bg-[#2DD4BF]/10 hover:border-[#2DD4BF] hover:text-white">
 
                   <ChevronsRight className="w-5 h-5" />
                 </Button>
@@ -144,12 +145,11 @@ export default function Layout({ children, currentPageName }) {
                 onClick={() => isSidebarCollapsed && toggleSidebar()}>
 
                 <div className={`text-right overflow-hidden transition-all duration-300 ${isSidebarCollapsed ? 'w-0' : 'w-auto mr-3'}`}>
-                  <h2 className="font-bold text-white text-lg whitespace-nowrap"></h2>
-                  <p className="text-xs text-emerald-300 whitespace-nowrap"></p>
+                  <BrandWordmark showTagline={false} />
                 </div>
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
-                      <Wallet className="w-6 h-6 text-emerald-950" />
+                  <div className="w-full h-full rounded-xl border border-[#2DD4BF]/50 bg-[#0F172A] flex items-center justify-center">
+                      <Wallet className="w-6 h-6 text-[#F59E0B]" />
                   </div>
                 </div>
               </div>
@@ -165,8 +165,8 @@ export default function Layout({ children, currentPageName }) {
                       className={`
                           flex items-center gap-4 p-3 rounded-xl transition-colors duration-200
                           ${location.pathname.startsWith(item.url) ?
-                      'bg-emerald-600/30 text-emerald-400 font-bold border border-emerald-600/50' :
-                      'text-emerald-200 hover:bg-emerald-800/30 hover:text-white'}
+                      'bg-[#2DD4BF]/15 text-[#2DD4BF] font-bold border border-[#2DD4BF]/40' :
+                      'text-[#CBD5E1] hover:bg-[#2DD4BF]/10 hover:text-white'}
                           ${isSidebarCollapsed ? 'justify-center' : ''}
                         `}>
 
@@ -175,7 +175,7 @@ export default function Layout({ children, currentPageName }) {
                       </Link>
                     </TooltipTrigger>
                     {isSidebarCollapsed &&
-                  <TooltipContent side="right" className="bg-emerald-900 text-white border-emerald-700">
+                  <TooltipContent side="right" className="bg-[#0F172A] text-white border-[#2DD4BF]/40">
                         <p>{item.title}</p>
                       </TooltipContent>
                   }
@@ -183,14 +183,14 @@ export default function Layout({ children, currentPageName }) {
                 )}
               </div>
 
-              <div className="mt-auto pt-4 border-t border-emerald-800/30">
+              <div className="mt-auto pt-4 border-t border-[#2DD4BF]/20">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
                       onClick={handleLogout}
                       className={`
                         w-full flex items-center gap-4 p-3 rounded-xl transition-colors duration-200
-                        text-emerald-200 hover:bg-red-900/30 hover:text-red-400
+                        text-[#CBD5E1] hover:bg-red-900/30 hover:text-red-400
                         ${isSidebarCollapsed ? 'justify-center' : ''}
                       `}>
 
@@ -199,7 +199,7 @@ export default function Layout({ children, currentPageName }) {
                     </button>
                   </TooltipTrigger>
                   {isSidebarCollapsed &&
-                  <TooltipContent side="right" className="bg-emerald-900 text-white border-emerald-700">
+                  <TooltipContent side="right" className="bg-[#0F172A] text-white border-[#2DD4BF]/40">
                       <p>התנתק</p>
                     </TooltipContent>
                   }
@@ -207,15 +207,15 @@ export default function Layout({ children, currentPageName }) {
               </div>
             </nav>
 
-            <div className="border-t border-emerald-800/30 p-4">
+            <div className="border-t border-[#2DD4BF]/20 p-4">
                <div className="flex items-center gap-3">
                 <div className={`text-right overflow-hidden transition-all duration-300 ${isSidebarCollapsed ? 'w-0' : 'w-auto'}`}>
                     <p className="font-medium text-white text-sm truncate whitespace-nowrap">{user.full_name}</p>
-                    <p className="text-xs text-emerald-300 truncate whitespace-nowrap">{user.email}</p>
+                    <p className="text-xs text-[#2DD4BF] truncate whitespace-nowrap">{user.email}</p>
                 </div>
-                <Avatar className={`w-10 h-10 border-2 border-emerald-500/50`}>
+                <Avatar className={`w-10 h-10 border-2 border-[#2DD4BF]/50`}>
                     <AvatarImage src={user.picture} />
-                    <AvatarFallback className="text-emerald-950 font-bold bg-gradient-to-r from-emerald-400 to-emerald-500">
+                    <AvatarFallback className="text-[#0F172A] font-bold bg-[#2DD4BF]">
                       {user.full_name?.[0]?.toUpperCase() || 'U'}
                     </AvatarFallback>
                 </Avatar>

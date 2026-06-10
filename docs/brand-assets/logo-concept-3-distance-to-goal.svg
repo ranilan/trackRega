@@ -1,0 +1,14 @@
+<svg width="640" height="240" viewBox="0 0 640 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">TrackRega logo concept 3 - distance to goal</title>
+  <desc id="desc">A minimalist route-to-target mark with understated professional colors.</desc>
+  <rect width="640" height="240" rx="28" fill="#F8FAFC"/>
+  <g transform="translate(70 54)">
+    <rect x="0" y="0" width="132" height="132" rx="66" fill="#E2E8F0"/>
+    <circle cx="94" cy="38" r="19" stroke="#0F766E" stroke-width="8"/>
+    <circle cx="94" cy="38" r="5" fill="#0F766E"/>
+    <path d="M34 98C47 78 55 76 66 72C77 68 83 58 94 38" stroke="#0F172A" stroke-width="8" stroke-linecap="round" stroke-dasharray="1 17"/>
+    <circle cx="34" cy="98" r="10" fill="#F59E0B"/>
+  </g>
+  <text x="232" y="112" fill="#0F172A" font-family="Inter, Assistant, Arial, sans-serif" font-size="54" font-weight="700" letter-spacing="0">TrackRega</text>
+  <text x="234" y="148" fill="#475569" font-family="Inter, Assistant, Arial, sans-serif" font-size="18" font-weight="500" letter-spacing="0">know the distance from your goals</text>
+</svg>

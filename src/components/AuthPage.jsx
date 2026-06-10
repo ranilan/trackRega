@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   ArrowLeft,
   BarChart3,
@@ -8,10 +9,10 @@ import {
   Clock3,
   ShieldCheck,
   Sparkles,
-  Wallet,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import BrandWordmark from '@/components/BrandWordmark';
 import { supabase } from '@/lib/supabaseClient';
 import { validateAccessCode } from '@/lib/accessCodes';
 
@@ -132,22 +133,27 @@ export default function AuthPage() {
   };
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#071923] text-white">
+    <main className="min-h-screen overflow-x-hidden bg-[#0F172A] text-white">
       <div className="grid min-h-screen lg:grid-cols-[1.12fr_0.88fr]">
         <section className="flex min-w-0 items-center px-5 py-10 sm:px-8 lg:px-14">
           <div className="mx-auto w-full min-w-0 max-w-3xl text-center sm:text-right">
-            <div className="mb-10 flex items-center justify-center gap-3 sm:justify-start">
-              <div className="flex h-11 w-11 items-center justify-center rounded bg-emerald-400 text-slate-950">
-                <Wallet className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold">TrackRega</p>
-                <p className="text-sm text-cyan-100">מעקב תקציב קצר, שבועי, ובעברית</p>
-              </div>
+            <div className="mb-10 flex items-center justify-center sm:justify-start">
+              <BrandWordmark />
             </div>
+            <nav className="mb-8 flex flex-wrap items-center justify-center gap-2 text-sm text-[#CBD5E1] sm:justify-start">
+              <Link to="/About" className="rounded px-3 py-2 transition hover:bg-[#2DD4BF]/10 hover:text-white">
+                מי אנחנו
+              </Link>
+              <Link to="/Contact" className="rounded px-3 py-2 transition hover:bg-[#2DD4BF]/10 hover:text-white">
+                צור קשר
+              </Link>
+              <Link to="/PersonalGuidance" className="rounded px-3 py-2 transition hover:bg-[#2DD4BF]/10 hover:text-white">
+                ליווי אישי
+              </Link>
+            </nav>
 
             <div className="max-w-2xl space-y-7">
-              <div className="inline-flex max-w-full items-center justify-center gap-2 rounded border border-emerald-300/40 bg-emerald-300/10 px-3 py-2 text-sm text-emerald-100">
+              <div className="inline-flex max-w-full items-center justify-center gap-2 rounded border border-[#2DD4BF]/40 bg-[#2DD4BF]/10 px-3 py-2 text-sm text-[#CBD5E1]">
                 <Sparkles className="h-4 w-4" />
                 <span>עכשיו בהרשמה מוקדמת עם קוד כניסה</span>
               </div>
@@ -169,7 +175,7 @@ export default function AuthPage() {
               <div className="grid gap-3 sm:grid-cols-3">
                 {benefits.map((benefit) => (
                   <div key={benefit.title} className="rounded border border-white/10 bg-white/[0.04] p-4">
-                    <benefit.icon className="mb-3 h-5 w-5 text-emerald-300" />
+                    <benefit.icon className="mb-3 h-5 w-5 text-[#2DD4BF]" />
                     <h2 className="text-base font-semibold" dir="rtl">{benefit.title}</h2>
                     <p className="mx-auto mt-2 max-w-[280px] text-sm leading-6 text-slate-300" dir="rtl">
                       {benefit.text}
@@ -197,7 +203,7 @@ export default function AuthPage() {
         </section>
 
         <section
-          className="flex min-w-0 items-center border-t border-white/10 bg-[#0D2633] px-5 py-10 sm:px-8 lg:border-r lg:border-t-0 lg:px-12"
+          className="flex min-w-0 items-center border-t border-white/10 bg-[#111D2B] px-5 py-10 sm:px-8 lg:border-r lg:border-t-0 lg:px-12"
         >
           <div className="mx-auto w-full min-w-0 max-w-md text-right">
             <div className="rounded border border-white/10 bg-slate-950/55 p-6 shadow-2xl">
@@ -213,7 +219,7 @@ export default function AuthPage() {
                   type="button"
                   onClick={() => switchMode('signin')}
                   className={`rounded px-3 py-2 text-sm font-medium transition ${
-                    !isSignup ? 'bg-emerald-400 text-slate-950' : 'text-slate-200 hover:text-white'
+                    !isSignup ? 'bg-[#2DD4BF] text-slate-950' : 'text-slate-200 hover:text-white'
                   }`}
                 >
                   התחברות
@@ -222,7 +228,7 @@ export default function AuthPage() {
                   type="button"
                   onClick={() => switchMode('signup')}
                   className={`rounded px-3 py-2 text-sm font-medium transition ${
-                    isSignup ? 'bg-emerald-400 text-slate-950' : 'text-slate-200 hover:text-white'
+                    isSignup ? 'bg-[#2DD4BF] text-slate-950' : 'text-slate-200 hover:text-white'
                   }`}
                 >
                   הרשמה
@@ -290,7 +296,7 @@ export default function AuthPage() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-emerald-400 font-semibold text-slate-950 hover:bg-emerald-300"
+                  className="w-full bg-[#2DD4BF] font-semibold text-slate-950 hover:bg-[#5EEAD4]"
                 >
                   {loading ? 'רק רגע...' : isSignup ? 'צור חשבון' : 'התחבר'}
                   {!loading && <ArrowLeft className="mr-2 h-4 w-4" />}

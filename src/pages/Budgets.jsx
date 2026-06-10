@@ -224,7 +224,7 @@ export default function Budgets() {
       });
     });
 
-    return Object.values(groups).sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+    return Object.values(groups).sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
   }, [budgets, transactions, categories]);
 
 

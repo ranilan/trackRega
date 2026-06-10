@@ -118,7 +118,7 @@ export default function CreateBudget() {
     // Find the most recent budget for this category, excluding the one being edited
     const previousBudget = allBudgets
       .filter(b => b.category_id === categoryId && b.budget_group_name !== editBudgetName)
-      .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))[0];
+      .sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime())[0];
     
     return previousBudget?.monthly_amount || 0;
   };

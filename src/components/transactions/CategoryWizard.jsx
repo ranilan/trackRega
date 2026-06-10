@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { TrendingUp, TrendingDown, ArrowRight, Loader2, EyeOff } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
-const StepButton = ({ onClick, disabled, children, className, plannedAmount, balance, showBudgetData }) =>
+const StepButton = ({ onClick, disabled = false, children, className, plannedAmount, balance, showBudgetData }) =>
 <Button
   onClick={onClick}
   disabled={disabled}
