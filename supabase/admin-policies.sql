@@ -58,6 +58,18 @@ alter table public.access_codes enable row level security;
 alter table public.access_code_redemptions enable row level security;
 alter table public.subscriptions enable row level security;
 
+revoke all on table public.access_codes from anon, authenticated;
+revoke all on table public.access_code_redemptions from anon, authenticated;
+revoke all on table public.subscriptions from anon, authenticated;
+
+grant select, insert, update, delete on public.access_codes to authenticated;
+grant select on public.access_code_redemptions to authenticated;
+grant select, insert, update, delete on public.subscriptions to authenticated;
+
+create schema if not exists private;
+revoke all on schema private from public;
+grant usage on schema private to anon, authenticated;
+
 create or replace function public.is_admin()
 returns boolean
 language sql
@@ -72,6 +84,47 @@ as $$
       and role = 'admin'
   );
 $$;
+
+create or replace function private.validate_access_code(submitted_code_hash text)
+returns table (
+  id uuid,
+  max_uses integer,
+  used_count integer,
+  valid_from timestamptz,
+  valid_until timestamptz
+)
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select ac.id, ac.max_uses, ac.used_count, ac.valid_from, ac.valid_until
+  from public.access_codes ac
+  where ac.code_hash = submitted_code_hash
+    and ac.is_active = true
+  limit 1;
+$$;
+
+revoke all on function private.validate_access_code(text) from public;
+grant execute on function private.validate_access_code(text) to anon, authenticated;
+
+create or replace function public.validate_access_code(submitted_code_hash text)
+returns table (
+  id uuid,
+  max_uses integer,
+  used_count integer,
+  valid_from timestamptz,
+  valid_until timestamptz
+)
+language sql
+stable
+set search_path = public, private
+as $$
+  select * from private.validate_access_code(submitted_code_hash);
+$$;
+
+revoke all on function public.validate_access_code(text) from public;
+grant execute on function public.validate_access_code(text) to anon, authenticated;
 
 insert into public.profiles (id, email, full_name, role)
 select id, email, coalesce(raw_user_meta_data->>'full_name', email), 'admin'
@@ -93,15 +146,9 @@ create policy "profiles_insert_own" on public.profiles
   for insert with check ((email = auth.email() and role = 'user') or public.is_admin());
 
 drop policy if exists "access_codes_select_active_or_admin" on public.access_codes;
-create policy "access_codes_select_active_or_admin" on public.access_codes
-  for select using (
-    public.is_admin()
-    or (
-      is_active = true
-      and (valid_from is null or valid_from <= now())
-      and (valid_until is null or valid_until >= now())
-    )
-  );
+drop policy if exists "access_codes_admin_select" on public.access_codes;
+create policy "access_codes_admin_select" on public.access_codes
+  for select using (public.is_admin());
 
 drop policy if exists "access_codes_admin_all" on public.access_codes;
 create policy "access_codes_admin_all" on public.access_codes
@@ -121,7 +168,7 @@ create policy "subscriptions_admin_all" on public.subscriptions
   for all using (public.is_admin())
   with check (public.is_admin());
 
-create or replace function public.record_access_code_use(
+create or replace function private.record_access_code_use(
   access_code_id uuid,
   signed_up_user_id uuid,
   signed_up_email text
@@ -131,20 +178,49 @@ language plpgsql
 security definer
 set search_path = public
 as $$
+declare
+  redeemed_access_code_id uuid;
 begin
   if access_code_id is null or signed_up_email is null then
     return;
   end if;
 
-  insert into public.access_code_redemptions (access_code_id, user_id, email)
-  values (access_code_id, signed_up_user_id, signed_up_email);
-
   update public.access_codes
   set used_count = used_count + 1,
       updated_at = now()
-  where id = access_code_id;
+  where id = access_code_id
+    and is_active = true
+    and (valid_from is null or valid_from <= now())
+    and (valid_until is null or valid_until >= now())
+    and (max_uses is null or used_count < max_uses)
+  returning id into redeemed_access_code_id;
+
+  if redeemed_access_code_id is null then
+    return;
+  end if;
+
+  insert into public.access_code_redemptions (access_code_id, user_id, email)
+  values (redeemed_access_code_id, signed_up_user_id, signed_up_email);
 end;
 $$;
+
+revoke all on function private.record_access_code_use(uuid, uuid, text) from public;
+grant execute on function private.record_access_code_use(uuid, uuid, text) to anon, authenticated;
+
+create or replace function public.record_access_code_use(
+  access_code_id uuid,
+  signed_up_user_id uuid,
+  signed_up_email text
+)
+returns void
+language sql
+set search_path = public, private
+as $$
+  select private.record_access_code_use(access_code_id, signed_up_user_id, signed_up_email);
+$$;
+
+revoke all on function public.record_access_code_use(uuid, uuid, text) from public;
+grant execute on function public.record_access_code_use(uuid, uuid, text) to anon, authenticated;
 
 drop policy if exists "financial_sources_owner_all" on public.financial_sources;
 create policy "financial_sources_owner_all" on public.financial_sources

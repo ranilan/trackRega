@@ -21,7 +21,7 @@ npm install
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
 
-# Optional local fallback while access_codes table is not ready:
+# Optional development-only fallback while access_codes table is not ready:
 VITE_SIGNUP_ACCESS_CODE=TRACKREGA
 ```
 
@@ -40,7 +40,8 @@ to add admin access, signup access codes, and subscription-ready fields.
 
 ## Product Notes
 
-- Signup is currently gated by a general access code.
+- Signup is gated by managed Supabase access codes in production.
+- `VITE_SIGNUP_ACCESS_CODE` is ignored in production and only works during local development.
 - Access codes are stored as SHA-256 hashes, not raw codes.
 - Payment is not connected yet, but the schema includes plan and subscription fields
   for a future Stripe or similar integration.

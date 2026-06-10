@@ -31,6 +31,8 @@ const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS || '')
   .map((email) => email.trim().toLowerCase())
   .filter(Boolean);
 
+const isLocalFallbackEnabled = import.meta.env.DEV;
+
 const randomId = () => {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) {
     return crypto.randomUUID();
@@ -163,6 +165,9 @@ export const createEntityClient = (entityName) => {
 
       const { data, error } = await query;
       if (error) {
+        if (!isLocalFallbackEnabled) {
+          throw error;
+        }
         console.warn(`Using local ${entityName} export because Supabase is not ready yet.`, error);
         const localFilters = {
           ...filters,
@@ -186,6 +191,9 @@ export const createEntityClient = (entityName) => {
 
       const { data, error } = await supabase.from(table).insert(payload).select('*').single();
       if (error) {
+        if (!isLocalFallbackEnabled) {
+          throw error;
+        }
         const rows = [payload, ...getLocalRows(entityName)];
         setLocalRows(entityName, rows);
         return payload;
@@ -210,6 +218,9 @@ export const createEntityClient = (entityName) => {
 
       const { data, error } = await supabase.from(table).insert(payloads).select('*');
       if (error) {
+        if (!isLocalFallbackEnabled) {
+          throw error;
+        }
         const rows = [...payloads, ...getLocalRows(entityName)];
         setLocalRows(entityName, rows);
         return payloads;
@@ -226,6 +237,9 @@ export const createEntityClient = (entityName) => {
         .single();
 
       if (error) {
+        if (!isLocalFallbackEnabled) {
+          throw error;
+        }
         const rows = getLocalRows(entityName).map((row) =>
           row.id === id ? { ...row, ...values, updated_date: new Date().toISOString() } : row,
         );
@@ -238,6 +252,9 @@ export const createEntityClient = (entityName) => {
     async delete(id) {
       const { error } = await supabase.from(table).delete().eq('id', id);
       if (error) {
+        if (!isLocalFallbackEnabled) {
+          throw error;
+        }
         setLocalRows(entityName, getLocalRows(entityName).filter((row) => row.id !== id));
         return true;
       }

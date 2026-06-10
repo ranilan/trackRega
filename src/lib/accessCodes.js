@@ -16,7 +16,7 @@ export const validateAccessCode = async (supabase, code) => {
     return { isValid: false, message: 'יש להזין קוד כניסה.' };
   }
 
-  const fallbackCode = import.meta.env.VITE_SIGNUP_ACCESS_CODE;
+  const fallbackCode = import.meta.env.DEV ? import.meta.env.VITE_SIGNUP_ACCESS_CODE : '';
   if (fallbackCode && normalizeAccessCode(fallbackCode) === normalizeAccessCode(trimmedCode)) {
     return { isValid: true, accessCodeId: null };
   }
@@ -24,12 +24,24 @@ export const validateAccessCode = async (supabase, code) => {
   const codeHash = await hashAccessCode(trimmedCode);
   const now = new Date().toISOString();
 
-  const { data, error } = await supabase
-    .from('access_codes')
-    .select('id, max_uses, used_count, valid_from, valid_until')
-    .eq('code_hash', codeHash)
-    .eq('is_active', true)
-    .maybeSingle();
+  const { data: rpcData, error: rpcError } = await supabase.rpc('validate_access_code', {
+    submitted_code_hash: codeHash,
+  });
+
+  let data = Array.isArray(rpcData) ? rpcData[0] : rpcData;
+  let error = rpcError;
+
+  if (rpcError && import.meta.env.DEV) {
+    const fallbackResult = await supabase
+      .from('access_codes')
+      .select('id, max_uses, used_count, valid_from, valid_until')
+      .eq('code_hash', codeHash)
+      .eq('is_active', true)
+      .maybeSingle();
+
+    data = fallbackResult.data;
+    error = fallbackResult.error;
+  }
 
   if (error) {
     return {
